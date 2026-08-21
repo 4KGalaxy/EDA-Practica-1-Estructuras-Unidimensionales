@@ -1,0 +1,32 @@
+### Cola circular — enqueue
+
+```
+ESTRUCTURA ColaCircular
+    datos: arreglo de tamaño C
+    head, tail, cantidad: entero
+    capacidad: entero = C
+
+
+FUNCION isEmpty(cola)
+retornar cola.cantidad == 0
+
+
+FUNCION isFull(cola)
+    retornar cola.cantidad == cola.capacidad
+
+FUNCION enqueue(cola, elemento)
+SI isFull(cola) ENTONCES
+retornar FALSO // rechazado por búfer lleno
+cola.datos[cola.tail] <- elemento
+cola.tail <- (cola.tail + 1) MOD cola.capacidad
+cola.cantidad <- cola.cantidad + 1
+retornar VERDADERO
+
+FUNCION dequeue(cola)
+    SI isEmpty(cola) ENTONCES
+        retornar (FALSO, indefinido)   
+    elemento <- cola.datos[cola.head]
+    cola.head <- (cola.head + 1) MOD cola.capacidad
+    cola.cantidad <- cola.cantidad - 1
+    retornar (VERDADERO, elemento)
+```
