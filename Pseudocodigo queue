@@ -30,3 +30,23 @@ FUNCION dequeue(cola)
     cola.cantidad <- cola.cantidad - 1
     retornar (VERDADERO, elemento)
 ```
+### Limitador de Tasa
+```
+FUNCION purgarExpirados(colaTimestamps, t_actual, T)
+MIENTRAS NOT isEmpty(colaTimestamps) Y front(colaTimestamps) < (t_actual - T) 
+HACER
+dequeue(colaTimestamps)
+
+FUNCION evaluarPaquete(bufer, colaTimestamps, paquete, C, T, L)
+    purgarExpirados(colaTimestamps, paquete.timestamp, T)
+
+    SI isFull(bufer) ENTONCES
+        retornar RECHAZADO_BUFER_LLENO
+
+    SI cantidad(colaTimestamps) >= L ENTONCES
+        retornar RECHAZADO_LIMITE_TASA
+
+    enqueue(bufer, paquete)
+    enqueue(colaTimestamps, paquete.timestamp)
+    retornar ACEPTADO
+```
