@@ -1,0 +1,17 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Ejecutar Proyecto (F5)",
+      "type": "cppvsdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/ejecutable.exe",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "console": "externalTerminal",
+      "preLaunchTask": "Compilar y Ejecutar Proyecto"
+    }
+  ]
+}

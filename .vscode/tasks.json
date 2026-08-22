@@ -1,0 +1,28 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "shell",
+      "label": "Compilar y Ejecutar Proyecto",
+      "command": "g++",
+      "args": [
+        "-std=c++17",
+        "-g",
+        "${workspaceFolder}/src/main.cpp",
+        "${workspaceFolder}/src/undoredo.cpp",
+        "-I",
+        "${workspaceFolder}/src",
+        "-o",
+        "${workspaceFolder}/ejecutable.exe"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": ["$gcc"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
+}
