@@ -43,7 +43,7 @@ bool BuferPaquetes::enqueue(const Paquete& p)
     }
     datos[tail] = p;
     tail = (tail + 1)% capacidad;
-    capacidad++;
+    cantidad++;//ascoooooooo gasssss
     return true;
 }
 //si tail estaba en la ultima posicion capacidad -1 sumarle 1 te da la capacidad, que esta afuera del arregllo. El %capacidad lo envuelve de vuelta a 0, ej capacidad=5: si tail=4, entonces (4+1)% 5=0
