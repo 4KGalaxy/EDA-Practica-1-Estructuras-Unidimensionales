@@ -68,3 +68,5 @@ void ColaTimestamps::purgarExpirados(long tiempoActual, long ventanaT) {
         }
         //mientras la cola no este vacia y el valorfrente sea mas viejo que el limite, se sigue purgando,  front(VF) llena la variable y retornan true/false
 }
+
+#include <iostream>
