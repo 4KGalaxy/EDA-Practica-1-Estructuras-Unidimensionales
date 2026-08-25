@@ -112,7 +112,8 @@ Durante la implementación se detectó un **bug crítico de desbordamiento de me
 ## Notas de compilación general
 
 - Todos los `.exe`, `.o` y archivos de salida temporal (`salida.txt`) están excluidos vía `.gitignore` — no se versionan, se regeneran compilando el código fuente.
-- Compilación completa del proyecto (una vez integrado con `main.cpp`):
+- Compilación completa del proyecto (orquestador `main.cpp`, Problema 1 y Problema 2):
 ```
-g++ -std=c++17 -O2 -o ada_p1 src/*.cpp
+g++ -std=c++17 -O2 -o ada_p1 src/main.cpp src/undoredo.cpp src/queue_circular.cpp src/queue_timestamps.cpp src/ratelimiter.cpp src/firewall_runner.cpp -I src
 ```
+Nota: no se usa `src/*.cpp` porque `stack_array.cpp` y `stack_list.cpp` son implementaciones de plantillas (`template<typename T>`) incluidas directamente por su `.hpp` (`#include "stack_array.cpp"`); compilarlas también como unidades de traducción aparte produce redefiniciones. Por la misma razón, `experimento_firewall.cpp`, `test_manual_ratelimiter.cpp` y `data/generador_paquetes.cpp` (cada uno con su propio `main`) se compilan por separado como herramientas independientes — ver las secciones de arriba.

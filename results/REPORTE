@@ -1,0 +1,49 @@
+Resultados experimentales — Problema 2 (Firewall)
+====================================================
+
+Configuracion: g++ -std=c++17 -O2, semilla del generador = 42
+Comando: .\experimento.exe data/paquetes_<n>.txt 100 1000 50
+Parametros fijos: C=100, T=1000 ms, L=50
+
+--- n = 1000 ---
+Corrida 1: 4.5646 ms
+Corrida 2: 1.2349 ms
+Corrida 3: 1.1672 ms
+Corrida 4: 1.1831 ms
+Corrida 5: 1.6509 ms
+Media: 1.96 ms   Desv. estandar (muestral): 1.47 ms
+Aceptados: 100   Rechazados por bufer: 846   Rechazados por tasa: 54
+
+--- n = 10000 ---
+Corrida 1: 10.7384 ms
+Corrida 2: 9.1937 ms
+Corrida 3: 10.4972 ms
+Corrida 4: 10.1399 ms
+Corrida 5: 10.4157 ms
+Media: 10.20 ms   Desv. estandar (muestral): 0.60 ms
+Aceptados: 100   Rechazados por bufer: 9846   Rechazados por tasa: 54
+
+--- n = 100000 ---
+Corrida 1: 157.676 ms
+Corrida 2: 140.594 ms
+Corrida 3: 109.809 ms
+Corrida 4: 102.034 ms
+Corrida 5: 94.6604 ms
+Media: 120.95 ms   Desv. estandar (muestral): 26.96 ms
+Aceptados: 100   Rechazados por bufer: 99846   Rechazados por tasa: 54
+
+--- n = 1000000 ---
+Corrida 1: 890.462 ms
+Corrida 2: 891.604 ms
+Corrida 3: 810.013 ms
+Corrida 4: 1024.51 ms
+Corrida 5: 1234.41 ms
+Media: 970.20 ms   Desv. estandar (muestral): 166.55 ms
+Aceptados: 100   Rechazados por bufer: 999846   Rechazados por tasa: 54
+
+Nota: con C=100, el bufer se satura casi de inmediato en archivos grandes
+(el enunciado no exige un consumidor que lo vacie -- "si el bufer esta lleno
+cuando llega un paquete, este se descarta" es el comportamiento esperado).
+Por eso Aceptados se mantiene en 100 en las 4 corridas. Si se quiere una
+metrica de aceptados/rechazados por causa mas variada para la discusion de
+la Seccion 10, repetir con un C mayor (ej. C=10000) y documentar aparte.

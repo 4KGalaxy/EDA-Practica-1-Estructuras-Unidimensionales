@@ -6,7 +6,7 @@
 
 
 ResultadoPaquete procesarPaquete(BuferPaquetes& bufer, ColaTimestamps& ventana, const Paquete& p, long T, int L){
-    //ventana.purgarExpirados(p.timestamp_ms,T); // priemro se purga, siemrpe antes de decidir nada, se usa el timestamp para el paqeute llegar en tiemmpo actual
+    ventana.purgarExpirados(p.timestamp_ms,T); // priemro se purga, siemrpe antes de decidir nada, se usa el timestamp para el paqeute llegar en tiemmpo actual
 
     ResultadoPaquete resultado;
     resultado.paquete = p; // se arma la respuesta desde ya, guardando el original package

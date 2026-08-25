@@ -3,12 +3,12 @@
 #include <chrono>
 
 int main() {
-    int C = 100;          // capacidad del bufer
+    int C = 10000;          // capacidad del bufer
     int capacidadVentana = 10;  // capacidad interna de ColaTimestamps
     long T = 10;           // duracion de la ventana en ms
-    int L = 1;             // limite de paquetes en la ventana
-    //std::string archivoPrueba = "tests/2-Pruebas.txt";
-    std::string archivoPrueba ="data/paquetes:1000.txt";
+    int L = 3;             // limite de paquetes en la ventana
+    std::string archivoPrueba = "tests/p2_caso4_rafaga_excede_L.txt";
+    //std::string archivoPrueba ="data/paquetes:1000.txt";
 
     BuferPaquetes bufer(C);
     ColaTimestamps ventana(capacidadVentana);
