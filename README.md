@@ -4,6 +4,23 @@ Pilas y Colas en Sistemas Reales: Undo/Redo de un Editor de Código y Control de
 
 ---
 
+## Problema 1 — Editor de Texto (Pilas LIFO y Gestor de Undo/Redo)
+
+### Estructuras implementadas
+
+- **`StackArray`** (`src/stack_array.hpp/.cpp`): Pila genérica implementada sobre un arreglo dinámico. Incluye lógica de redimensionamiento automático (`resize()`) cuando se alcanza la capacidad máxima.
+- **`StackList`** (`src/stack_list.hpp/.cpp`): Pila genérica sobre una lista simplemente enlazada con nodos gestionados dinámicamente en el *heap*. Cumple el requisito de doble representación estructural.
+- **`UndoRedoManager`** (`src/undoredo.hpp/.cpp`): Gestor del historial de operaciones de texto utilizando el patrón de dos pilas (`undoStack` y `redoStack`). Aplica y revierte acciones como inserciones y eliminaciones leyendo un flujo de eventos.
+
+### Interfaz y Ejecución
+
+El punto de entrada (`src/main.cpp`) implementa un selector dinámico utilizando la librería `<filesystem>` de C++17. El programa escanea automáticamente el directorio `tests/`, lista los archivos `.txt` disponibles y permite al usuario seleccionar de forma interactiva qué set de pruebas ejecutar.
+
+**Compilación rápida (Módulo 1):**
+```bash
+g++ -std=c++17 -g src/main.cpp src/undoredo.cpp -I src -o ejecutable.exe
+```
+
 ## Problema 2 — Firewall (Cola circular + ventana deslizante)
 
 ### Estructuras implementadas
