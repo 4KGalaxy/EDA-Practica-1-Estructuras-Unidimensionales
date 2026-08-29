@@ -14,7 +14,7 @@ int main() {
     }
     
     int i = 1, op;
-    std::string files[10];
+    std::string files[64];
 
     std::cout << "--- ARCHIVOS EN /tests ---\n";
     for (const auto& entry : std::filesystem::directory_iterator("tests")) {
