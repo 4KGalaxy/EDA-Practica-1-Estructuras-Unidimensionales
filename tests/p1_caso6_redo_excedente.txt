@@ -1,0 +1,6 @@
+EDIT INSERT 0 interestelar
+UNDO
+REDO
+REDO
+REDO
+REDO
