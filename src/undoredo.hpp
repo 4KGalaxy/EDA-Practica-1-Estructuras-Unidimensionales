@@ -2,6 +2,7 @@
 #define UNDOREDO_HPP
 
 #include "stack_array.hpp"
+#include "stack_list.hpp"
 #include <string>
 
 enum class ActionType { INSERT, DELETE, REPLACE };
@@ -12,10 +13,11 @@ struct Action {
     std::string content;
 };
 
+template <typename PilaTipo>
 class UndoRedoManager {
 private:
-    StackArray<Action> undoStack;
-    StackArray<Action> redoStack;
+    PilaTipo undoStack;
+    PilaTipo redoStack;
     std::string document;
 
     void applyAction(const Action& act);

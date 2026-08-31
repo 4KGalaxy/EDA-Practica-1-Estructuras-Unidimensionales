@@ -2,48 +2,58 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <algorithm> 
 
-UndoRedoManager::UndoRedoManager() : document("") {}
+template <typename PilaTipo>
+UndoRedoManager<PilaTipo>::UndoRedoManager() : document("") {}
 
-void UndoRedoManager::applyAction(const Action& act) {
+template <typename PilaTipo>
+void UndoRedoManager<PilaTipo>::applyAction(const Action& act) {
+    std::size_t safePos = std::min(act.pos, document.size());
+
     if (act.type == ActionType::INSERT) {
-        document.insert(act.pos, act.content);
+        document.insert(safePos, act.content);
     } else if (act.type == ActionType::DELETE) {
-        document.erase(act.pos, act.content.size());
+        std::size_t safeLen = std::min(act.content.size(), document.size() - safePos);
+        document.erase(safePos, safeLen);
     } else if (act.type == ActionType::REPLACE) {
-        document.replace(act.pos, act.content.size(), act.content);
+        document.replace(safePos, act.content.size(), act.content);
     }
 }
 
-Action UndoRedoManager::invertAction(const Action& act) {
+template <typename PilaTipo>
+Action UndoRedoManager<PilaTipo>::invertAction(const Action& act) {
     if (act.type == ActionType::INSERT) {
         return {ActionType::DELETE, act.pos, act.content};
     } else if (act.type == ActionType::DELETE) {
         return {ActionType::INSERT, act.pos, act.content};
     } else {
-        std::string currentSub = document.substr(act.pos, act.content.size());
+        std::size_t safePos = std::min(act.pos, document.size());
+        std::size_t safeLen = std::min(act.content.size(), document.size() - safePos);
+        std::string currentSub = document.substr(safePos, safeLen);
         return {ActionType::REPLACE, act.pos, currentSub};
     }
 }
 
-void UndoRedoManager::executeEdit(ActionType type, std::size_t pos, const std::string& content) {
+template <typename PilaTipo>
+void UndoRedoManager<PilaTipo>::executeEdit(ActionType type, std::size_t pos, const std::string& content) {
     Action act;
     act.type = type;
-    act.pos = pos;
+    act.pos = std::min(pos, document.size());
 
     if (type == ActionType::INSERT) {
         act.content = content;
-        document.insert(pos, content);
+        document.insert(act.pos, content);
     } else if (type == ActionType::DELETE) {
         std::size_t len = std::stoul(content);
-        if (pos + len > document.size()) {
-            len = document.size() - pos;
+        if (act.pos + len > document.size()) {
+            len = document.size() - act.pos;
         }
-        act.content = document.substr(pos, len);
-        document.erase(pos, len);
+        act.content = document.substr(act.pos, len);
+        document.erase(act.pos, len);
     } else if (type == ActionType::REPLACE) {
-        std::string oldContent = document.substr(pos, content.size());
-        document.replace(pos, content.size(), content);
+        std::string oldContent = document.substr(act.pos, content.size());
+        document.replace(act.pos, content.size(), content);
         act.content = oldContent;
     }
 
@@ -54,7 +64,8 @@ void UndoRedoManager::executeEdit(ActionType type, std::size_t pos, const std::s
     }
 }
 
-bool UndoRedoManager::undo() {
+template <typename PilaTipo>
+bool UndoRedoManager<PilaTipo>::undo() {
     if (undoStack.isEmpty()) {
         std::cout << "[LOG] UNDO: No-Op (Pila Undo vacia)\n";
         return false;
@@ -71,7 +82,8 @@ bool UndoRedoManager::undo() {
     return true;
 }
 
-bool UndoRedoManager::redo() {
+template <typename PilaTipo>
+bool UndoRedoManager<PilaTipo>::redo() {
     if (redoStack.isEmpty()) {
         std::cout << "[LOG] REDO: No-Op (Pila Redo vacia)\n";
         return false;
@@ -80,13 +92,17 @@ bool UndoRedoManager::redo() {
     Action actToRedo = redoStack.top();
     redoStack.pop();
 
+    std::size_t safePos = std::min(actToRedo.pos, document.size());
+
     if (actToRedo.type == ActionType::INSERT) {
-        document.insert(actToRedo.pos, actToRedo.content);
+        document.insert(safePos, actToRedo.content);
     } else if (actToRedo.type == ActionType::DELETE) {
-        document.erase(actToRedo.pos, actToRedo.content.size());
+        std::size_t safeLen = std::min(actToRedo.content.size(), document.size() - safePos);
+        document.erase(safePos, safeLen);
     } else if (actToRedo.type == ActionType::REPLACE) {
-        std::string currentSub = document.substr(actToRedo.pos, actToRedo.content.size());
-        document.replace(actToRedo.pos, actToRedo.content.size(), actToRedo.content);
+        std::size_t safeLen = std::min(actToRedo.content.size(), document.size() - safePos);
+        std::string currentSub = document.substr(safePos, safeLen);
+        document.replace(safePos, actToRedo.content.size(), actToRedo.content);
         actToRedo.content = currentSub;
     }
 
@@ -95,7 +111,8 @@ bool UndoRedoManager::redo() {
     return true;
 }
 
-void UndoRedoManager::processEventFile(const std::string& filepath) {
+template <typename PilaTipo>
+void UndoRedoManager<PilaTipo>::processEventFile(const std::string& filepath) {
     std::ifstream file(filepath);
     if (!file.is_open()) {
         std::cerr << "[ERROR] No se pudo abrir el archivo de eventos: " << filepath << "\n";
@@ -122,6 +139,10 @@ void UndoRedoManager::processEventFile(const std::string& filepath) {
                 content.erase(0, 1);
             }
 
+            if (content.size() >= 2 && content.front() == '"' && content.back() == '"') {
+                content = content.substr(1, content.size() - 2);
+            }
+
             ActionType type;
             if (opStr == "INSERT") type = ActionType::INSERT;
             else if (opStr == "DELETE") type = ActionType::DELETE;
@@ -137,7 +158,8 @@ void UndoRedoManager::processEventFile(const std::string& filepath) {
     file.close();
 }
 
-void UndoRedoManager::printSummary() const {
+template <typename PilaTipo>
+void UndoRedoManager<PilaTipo>::printSummary() const {
     std::cout << "\n========================================\n";
     std::cout << "          RESUMEN DE EJECUCION          \n";
     std::cout << "========================================\n";
@@ -147,6 +169,15 @@ void UndoRedoManager::printSummary() const {
     std::cout << "========================================\n";
 }
 
-const std::string& UndoRedoManager::getDocument() const { return document; }
-std::size_t UndoRedoManager::getUndoSize() const { return undoStack.size(); }
-std::size_t UndoRedoManager::getRedoSize() const { return redoStack.size(); }
+template <typename PilaTipo>
+const std::string& UndoRedoManager<PilaTipo>::getDocument() const { return document; }
+
+template <typename PilaTipo>
+std::size_t UndoRedoManager<PilaTipo>::getUndoSize() const { return undoStack.size(); }
+
+template <typename PilaTipo>
+std::size_t UndoRedoManager<PilaTipo>::getRedoSize() const { return redoStack.size(); }
+
+
+template class UndoRedoManager<StackArray<Action>>;
+template class UndoRedoManager<StackList<Action>>;

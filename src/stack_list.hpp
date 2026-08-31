@@ -14,7 +14,7 @@ private:
     };
 
     Node* head;
-    size_t count;
+    std::size_t currentSize;
 
 public:
     StackList();
@@ -24,9 +24,9 @@ public:
     void pop();
     const T& top() const;
     bool isEmpty() const;
-    size_t size() const;
+    std::size_t size() const;
 };
 
 #include "stack_list.cpp"
 
-#endif // STACK_LIST_HPP
+#endif
