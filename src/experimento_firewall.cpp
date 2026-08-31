@@ -36,7 +36,7 @@ int main(int argc, char* argv[]) {
         std::cout << "Aceptados: " << stats.totalAceptados << "\n";
         std::cout << "Rechazados por bufer: " << stats.rechazadosPorBufer << "\n";
         std::cout << "Rechazados por tasa: " << stats.rechazadosPorTasa << "\n";
-        std::cout << "Tiempo: " << duracion.count() << " ms\n";
+        std::cout << "Tiempo: " << duracion.count() << " ms" << std::endl;
 
     } catch (const std::exception& e) {
         std::cerr << "EXCEPCION ATRAPADA: " << e.what() << std::endl;
