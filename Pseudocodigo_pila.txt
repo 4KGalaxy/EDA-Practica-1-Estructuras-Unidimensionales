@@ -1,0 +1,66 @@
+ESTRUCTURA Accion:
+    tipo_operacion (INSERTAR o BORRAR)
+    texto
+    posicion
+
+CLASE GestorUndoRedo:
+    ATRIBUTOS:
+        Pila undoStack
+        Pila redoStack
+        Cadena documento_actual
+
+    // ==========================================
+    // EJECUTAR UNA NUEVA EDICIÓN
+    // ==========================================
+    FUNCION ejecutarEdicion(nueva_accion):
+        // 1. Aplicar el cambio al texto
+        aplicarAccion(nueva_accion, documento_actual)
+        
+        // 2. Guardar la acción en el historial de deshacer
+        undoStack.push(nueva_accion)
+        
+        // 3. Limpiar la pila de rehacer (una nueva acción sobreescribe el futuro)
+        MIENTRAS NO redoStack.estaVacia() HACER:
+            redoStack.pop()
+        FIN MIENTRAS
+    FIN FUNCION
+
+    // ==========================================
+    // DESHACER (UNDO)
+    // ==========================================
+    FUNCION deshacer():
+        // Validar que haya historial
+        SI undoStack.estaVacia() ENTONCES:
+            RETORNAR // No hay nada que deshacer
+        FIN SI
+
+        // 1. Sacar la última acción realizada
+        accion_a_revertir = undoStack.top()
+        undoStack.pop()
+
+        // 2. Aplicar el efecto contrario en el documento
+        aplicarAccionInversa(accion_a_revertir, documento_actual)
+
+        // 3. Mover la acción a la pila de rehacer por si el usuario cambia de opinión
+        redoStack.push(accion_a_revertir)
+    FIN FUNCION
+
+    // ==========================================
+    // REHACER (REDO)
+    // ==========================================
+    FUNCION rehacer():
+        // Validar que haya acciones revertidas
+        SI redoStack.estaVacia() ENTONCES:
+            RETORNAR // No hay nada que rehacer
+        FIN SI
+
+        // 1. Recuperar la última acción que fue deshecha
+        accion_a_recuperar = redoStack.top()
+        redoStack.pop()
+
+        // 2. Volver a aplicarla normalmente en el documento
+        aplicarAccion(accion_a_recuperar, documento_actual)
+
+        // 3. Regresarla a la pila principal de historial
+        undoStack.push(accion_a_recuperar)
+    FIN FUNCION
