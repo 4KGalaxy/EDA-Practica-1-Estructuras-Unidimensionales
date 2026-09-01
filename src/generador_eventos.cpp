@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 
-int cantidad_eventos = 10;
+int cantidad_eventos = 1000;
 
 int main() {
     std::string filename = "tests/eventos_masivos_" + std::to_string(cantidad_eventos) + ".txt";
