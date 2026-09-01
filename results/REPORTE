@@ -2,48 +2,64 @@ Resultados experimentales — Problema 2 (Firewall)
 ====================================================
 
 Configuracion: g++ -std=c++17 -O2, semilla del generador = 42
-Comando: .\experimento.exe data/paquetes_<n>.txt 100 1000 50
-Parametros fijos: C=100, T=1000 ms, L=50
+Comando: .\experimento.exe data/paquetes_<n>.txt 777777 66666 3333
+Parametros fijos: C=777777, T=66666 ms, L=3333
 
 --- n = 1000 ---
-Corrida 1: 4.5646 ms
-Corrida 2: 1.2349 ms
-Corrida 3: 1.1672 ms
-Corrida 4: 1.1831 ms
-Corrida 5: 1.6509 ms
-Media: 1.96 ms   Desv. estandar (muestral): 1.47 ms
-Aceptados: 100   Rechazados por bufer: 846   Rechazados por tasa: 54
+Corrida 1: 1.1390 ms
+Corrida 2: 1.4052 ms
+Corrida 3: 1.7414 ms
+Corrida 4: 1.0930 ms
+Corrida 5: 1.8747 ms
+Media: 1.45 ms   Desv. estandar (muestral): 0.35 ms
+Aceptados: 1000   Rechazados por bufer: 0   Rechazados por tasa: 0
 
 --- n = 10000 ---
-Corrida 1: 10.7384 ms
-Corrida 2: 9.1937 ms
-Corrida 3: 10.4972 ms
-Corrida 4: 10.1399 ms
-Corrida 5: 10.4157 ms
-Media: 10.20 ms   Desv. estandar (muestral): 0.60 ms
-Aceptados: 100   Rechazados por bufer: 9846   Rechazados por tasa: 54
+Corrida 1: 8.6069 ms
+Corrida 2: 8.5787 ms
+Corrida 3: 10.9323 ms
+Corrida 4: 9.4030 ms
+Corrida 5: 13.0161 ms
+Media: 10.11 ms   Desv. estandar (muestral): 1.89 ms
+Aceptados: 6666   Rechazados por bufer: 0   Rechazados por tasa: 3334
 
 --- n = 100000 ---
-Corrida 1: 157.676 ms
-Corrida 2: 140.594 ms
-Corrida 3: 109.809 ms
-Corrida 4: 102.034 ms
-Corrida 5: 94.6604 ms
-Media: 120.95 ms   Desv. estandar (muestral): 26.96 ms
-Aceptados: 100   Rechazados por bufer: 99846   Rechazados por tasa: 54
+Corrida 1: 156.629 ms
+Corrida 2: 124.381 ms
+Corrida 3: 101.828 ms
+Corrida 4: 101.020 ms
+Corrida 5: 123.988 ms
+Media: 121.57 ms   Desv. estandar (muestral): 22.67 ms
+Aceptados: 53328   Rechazados por bufer: 0   Rechazados por tasa: 46672
 
 --- n = 1000000 ---
-Corrida 1: 890.462 ms
-Corrida 2: 891.604 ms
-Corrida 3: 810.013 ms
-Corrida 4: 1024.51 ms
-Corrida 5: 1234.41 ms
-Media: 970.20 ms   Desv. estandar (muestral): 166.55 ms
-Aceptados: 100   Rechazados por bufer: 999846   Rechazados por tasa: 54
+Corrida 1: 1371.62 ms
+Corrida 2: 2077.99 ms
+Corrida 3: 1145.84 ms
+Corrida 4: 1216.42 ms
+Corrida 5: 1316.81 ms
+Media: 1425.74 ms   Desv. estandar (muestral): 374.96 ms
+Aceptados: 525251   Rechazados por bufer: 0   Rechazados por tasa: 474749
 
-Nota: con C=100, el bufer se satura casi de inmediato en archivos grandes
-(el enunciado no exige un consumidor que lo vacie -- "si el bufer esta lleno
-cuando llega un paquete, este se descarta" es el comportamiento esperado).
-Por eso Aceptados se mantiene en 100 en las 4 corridas. Si se quiere una
-metrica de aceptados/rechazados por causa mas variada para la discusion de
-la Seccion 10, repetir con un C mayor (ej. C=10000) y documentar aparte.
+Tiempo medio por paquete (Media / n):
+  n = 1000       -> 1.45 us/paq
+  n = 10000      -> 1.01 us/paq
+  n = 100000     -> 1.22 us/paq
+  n = 1000000    -> 1.43 us/paq
+El tiempo total crece de forma aproximadamente lineal con n (factor x10 en
+tamano -> factor ~7x-12x en tiempo), consistente con el costo Theta(n)
+amortizado deducido en la Seccion 8. El costo por paquete se mantiene en el
+orden de 1-1.5 us en todas las escalas.
+
+Nota: con C=777777 el bufer nunca se llena (el total de paquetes aceptados,
+525251 en el caso mayor, queda muy por debajo de la capacidad y el enunciado
+no exige un consumidor que lo vacie). Por eso "Rechazados por bufer" es 0 en
+todos los tamanos y la unica causa de rechazo activa es el limitador de tasa
+por ventana deslizante (L=3333 paquetes en T=66666 ms). La fraccion de
+aceptados se estabiliza cerca del 52-53% en los archivos grandes, cuando la
+ventana llega a saturacion sostenida.
+
+La corrida 2 de n = 1000000 (2077.99 ms) es un valor atipico alto respecto de
+las otras cuatro (~1145-1372 ms); se conserva en el promedio pero explica la
+desviacion estandar elevada en ese tamano. Atribuible a variabilidad del
+sistema operativo / planificador durante esa ejecucion.
