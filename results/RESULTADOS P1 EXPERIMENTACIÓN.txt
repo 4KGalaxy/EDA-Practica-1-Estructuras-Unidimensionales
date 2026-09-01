@@ -1,0 +1,20 @@
+	StackArray Resultados			
+# Tiempo iteración	n = 1000	n = 10000	n = 100000	n = 1000000
+1	13.2358 ms	57.6772 ms	561.337 ms	5441.77 ms
+2	14.0809 ms	58.8894 ms	567.028 ms	5480.97 ms
+3	12.8087 ms	 54.4675 ms	547.997 ms	5451.84 ms
+4	13.0728 ms	59.8039 ms	547.192 ms	5491.36 ms
+5	12.102 ms	57.7247 ms	573.99 ms	5399.87 ms
+Elementos finales undo	(c) Elementos finales en Pila Undo: 562	(c) Elementos finales en Pila Undo: 5654	(c) Elementos finales en Pila Undo: 56775	(c) Elementos finales en Pila Undo: 573381
+Elementos finales redo	(c) Elementos finales en Pila Redo: 0	(c) Elementos finales en Pila Redo: 1	(c) Elementos finales en Pila Redo: 3	(c) Elementos finales en Pila Redo: 0
+Estado final del documento	"(a) Estado final del documento: ""DatosPoctEDaNoNododoosEAPruProyecPDatosroDatoNodosyectoEsDatoPilasst"""	"(a) Estado final del documento: ""royectDatoProyecEAFIAtuPC++royecs"""	"(a) Estado final del documento: ""olEAFITa"""	"(a) Estado final del documento: ""CDilNoC++ras"""
+	StackList Resultados			
+# Tiempo iteración	n = 1000	n = 10000	n = 100000	n = 1000000
+1	7.4931 ms	59.6485 ms	539.11 ms	5416.27 ms
+2	 8.263 ms	62.9564 ms	545.354 ms	6011.4 ms
+3	7.8873 ms	54.9631 ms	575.292 ms	5387.22 ms
+4	5.8397 ms	57.2083 ms	562.187 ms	5504.79 ms
+5	7.2637 ms	59.9722 ms	537.217 ms	5473.9 ms
+Elementos finales undo	(c) Elementos finales en Pila Undo: 562	(c) Elementos finales en Pila Undo: 5654	(c) Elementos finales en Pila Undo: 56775	(c) Elementos finales en Pila Undo: 573381
+Elementos finales redo	(c) Elementos finales en Pila Redo: 0	(c) Elementos finales en Pila Redo: 1	(c) Elementos finales en Pila Redo: 3	(c) Elementos finales en Pila Redo: 0
+Estado final del documento	"(a) Estado final del documento: ""DatosPoctEDaNoNododoosEAPruProyecPDatosroDatoNodosyectoEsDatoPilasst"""	"(a) Estado final del documento: ""royectDatoProyecEAFIAtuPC++royecs"""	"(a) Estado final del documento: ""olEAFITa"""	"(a) Estado final del documento: ""CDilNoC++ras"""
