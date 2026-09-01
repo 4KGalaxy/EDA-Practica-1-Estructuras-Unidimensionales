@@ -3,6 +3,7 @@
 #include "stack_list.hpp"
 #include <iostream>
 #include <filesystem>
+#include <chrono>
 #include "firewall_runner.hpp"
 
 int main() {
@@ -39,12 +40,26 @@ int main() {
 
     if (tipo_pila == 2) {
         UndoRedoManager<StackList<Action>> manager;
+        
+        auto start = std::chrono::high_resolution_clock::now();
         manager.processEventFile(files[op]);
+        auto end = std::chrono::high_resolution_clock::now();
+        
         manager.printSummary();
+        
+        std::chrono::duration<double, std::milli> ms = end - start;
+        std::cout << "Tiempo de ejecucion: " << ms.count() << " ms\n";
     } else {
         UndoRedoManager<StackArray<Action>> manager;
+        
+        auto start = std::chrono::high_resolution_clock::now();
         manager.processEventFile(files[op]);
+        auto end = std::chrono::high_resolution_clock::now();
+        
         manager.printSummary();
+        
+        std::chrono::duration<double, std::milli> ms = end - start;
+        std::cout << "Tiempo de ejecucion: " << ms.count() << " ms\n";
     }
 
     return 0;
