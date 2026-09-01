@@ -22,14 +22,39 @@ resultados experimentales completos, ver el informe técnico en `report/`.
 ## Estructura del repositorio
 
 ```
-├── data/               Generadores de datos sintéticos
-├── report/             Informe técnico (PDF)
-├── results/            Resultados de experimentación (5 corridas x 4 tamaños)
-├── src/                Código fuente
-├── tests/              Casos de prueba (.txt) y datos sintéticos generados
-├── Pseudocodigo pila.txt
+├── data/               Generador de datos sintéticos de Problema 2 y paquetes generados
+├── report/              Informe técnico y resúmenes de experimentación (Problema 1 y 2)
+├── results/             Resultados crudos de cada corrida (5 x 4 tamaños)
+├── src/                 Código fuente
+├── tests/               Casos de prueba (.txt) y datos sintéticos generados
+├── .gitignore
 ├── Pseudocodigo queue
+├── Pseudocodigo_pila.txt
+├── README.md
 ```
+
+---
+
+## Ejecución rápida (Problema 1 y Problema 2)
+
+**Opción A — desde VS Code:** abrir `src/main.cpp` y presionar **F5**. Esto
+compila y ejecuta usando la tarea configurada en `.vscode/tasks.json`.
+
+**Opción B — desde terminal:**
+```
+g++ -std=c++17 -O2 src/main.cpp src/undoredo.cpp src/queue_circular.cpp src/queue_timestamps.cpp src/ratelimiter.cpp src/firewall_runner.cpp -I src -o ejecutable.exe
+.\ejecutable.exe
+```
+
+El programa pregunta el problema (1 o 2), y para Problema 1 pregunta la
+representación de pila (StackArray o StackList) antes de listar los archivos
+disponibles en `tests/`. Al finalizar imprime el resumen del documento y el
+tiempo de ejecución (medido con `std::chrono`).
+
+> **Nota:** si al ejecutar aparece el mensaje "Presione una tecla para
+> continuar . . ." sin mostrar el menú, o la consola se queda pensando sin
+> avanzar, cerrar la ventana de terminal y volver a ejecutar (F5 o el comando
+> de nuevo) hasta que el menú aparezca correctamente.
 
 ---
 
@@ -40,18 +65,6 @@ resultados experimentales completos, ver el informe técnico en `report/`.
 - `src/stack_array.hpp/.cpp` — Pila sobre arreglo dinámico
 - `src/stack_list.hpp/.cpp` — Pila sobre lista enlazada
 - `src/undoredo.hpp/.cpp` — `UndoRedoManager`, plantilla parametrizada por representación
-
-### Compilar y ejecutar
-
-```
-g++ -std=c++17 -O2 src/main.cpp src/undoredo.cpp src/queue_circular.cpp src/queue_timestamps.cpp src/ratelimiter.cpp src/firewall_runner.cpp -I src -o ejecutable.exe
-.\ejecutable.exe
-```
-
-El programa pregunta el problema (1 o 2), y para Problema 1 pregunta la
-representación de pila (StackArray o StackList) antes de listar los archivos
-disponibles en `tests/`. Al finalizar imprime el resumen del documento y el
-tiempo de ejecución (medido con `std::chrono`).
 
 ### Generador de eventos sintéticos
 
@@ -83,16 +96,18 @@ Repetir estos 4 pasos por cada uno de los 4 tamaños necesarios para la
 experimentación (1000, 10000, 100000, 1000000), cambiando el valor de
 `cantidad_eventos` y recompilando cada vez.
 
-Cada corrida genera el archivo directamente en `tests/`, donde ya queda
-disponible para seleccionarse desde el menú del ejecutable principal.
+Cada corrida genera el archivo directamente en `tests/` con el nombre
+`eventos_masivos_<n>.txt`, donde ya queda disponible para seleccionarse
+desde el menú del ejecutable principal.
 
 ### Casos de prueba y resultados
 
 Los 7 casos obligatorios (Sección 11 del enunciado), corridos sobre ambas
 representaciones, y los resultados de experimentación de los 4 tamaños, están
 documentados con resultado esperado/obtenido en el informe técnico
-(Secciones 8.1 y 9.1). Los archivos de prueba están en `tests/`, los
-resultados crudos de cada corrida en `results/`.
+(Secciones 8.1 y 9.1). Los archivos de prueba están en `tests/`
+(`p1_caso1_...` a `p1_caso7_...`), el resumen de experimentación en
+`report/RESULTADOS P1 EXPERIMENTACIÓN`.
 
 ---
 
@@ -182,8 +197,10 @@ g++ -std=c++17 -o test_manual src/test_manual_ratelimiter.cpp src/queue_circular
 
 Los 7 casos obligatorios y los resultados de experimentación de los 4
 tamaños están documentados con resultado esperado/obtenido en el informe
-técnico (Secciones 8.2 y 9.2). Los archivos de prueba están en `tests/`, los
-resultados crudos en `results/`.
+técnico (Secciones 8.2 y 9.2). Los archivos de prueba están en `tests/`
+(`p2_caso1_...` a `p2_caso7_...`), el resumen de experimentación en
+`report/REPORTE P2 EXPERIMENTAL`, y las 20 corridas crudas (4 tamaños x 5
+repeticiones) en `results/`.
 
 ---
 
